@@ -1,8 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import User,Profile,Community,Blog,Course
+from .models import User,Profile,Community,Course  #Blog
+from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.contrib.auth import login,authenticate,logout
+from django.urls import reverse
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect 
+User=get_user_model()
 
 # Create your views here.
+'''class NewCommentForm(ModelForm):
+  class Meta:
+    model=Comment
+    fields=['content']'''
 
 def register(request):
   if request.method=='POST':
@@ -17,7 +30,63 @@ def register(request):
     marks_10=request.POST['marks_10']
     marks_12=request.POST['marks_12']
     skill=request.POST['skill']
-    profile=Profile(name=name,email=email,password=password,confirmation=confirmation,branch=branch,)
+    profile=Profile(name,email,gender,branch,degree,skill,marks_10,marks_12)
+    profile=Profile(name=name,email=email,gender=gender,branch=branch,degree=degree,skill=skill,marks_10=marks_10,marks_12=marks_12)
+    profile.save()
+
+    punctuation="@!#$%^&."
+    alphas,nums,lower,upper,special=0,0,0,0,0
+    for i in password:
+      if i.isalpha():
+        alphas+=1
+      if i.isnumeric():
+        nums+=1
+      if i.islower():
+        lower+=1
+      if i.isupper():
+        upper+=1
+      if i in punctuation:
+        special+=1
+
+    if len(password)<8 or alphas<1 or nums<1 or lower<1 or upper<1 or special<1:
+      return render(request,"nav/register.html",{"message":" Password must contain atleast 8 characters, 1 alphabet, 1 number, 1 lowercase, 1 uppercase and 1 special character"})
+
+    if password!=confirmation:   
+      return render(request,"nav/register.html",{"message":"Passwords do not match"})
+    
+    try:
+      user=User.objects.create_user(name,email,password)
+      user.save()
+
+    except IntegrityError:
+       return render(request,"nav/register.html",{"message":"User already exists"})
+    login(request,user)
+    return render(request,"nav/register.html",{"message":"User registered successfully"}) 
+
+  else:
+    return render(request,"nav/register.html")
+
+def login_view(request):
+  if request.method=="POST":
+    name=request.POST["name"]
+    password=request.POST["password"]
+    user=authenticate(request,username=name,password=password)
+
+    if user is not None:
+      login(request,user) #Log the user in
+      return redirect('home') #Redirect to home page or another view
+    
+    else:
+      return render(request,'nav/login.html',{'message':"Invalid credentials"})
+    
+  else:
+    return render(request,'nav/login.html') 
+
+def logout_view(request):
+  logout(request)
+
+  return HttpResponseRedirect(reverse("landing"))
+
 
 
     

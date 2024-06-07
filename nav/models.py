@@ -1,20 +1,21 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.
-class User(User):
+class User(AbstractUser):
   watchlist=models.ManyToManyField('Course', related_name='watchlist', blank=True)
-  blog=models.ForeignKey('Blog',related_name='blogs',on_delete=models.CASCADE ,blank=True)
+  #blog=models.ForeignKey('Blog',related_name='blogs',on_delete=models.CASCADE ,blank=True)
 
 class Course(models.Model):
   title =models.CharField(max_length=100 , verbose_name="Title")
   description = models.TextField(verbose_name="Description")
   created_at=models.DateTimeField(auto_now_add=True)
 
-class Blog(models.Model):
-  title = models.CharField(max_length=100, verbose_name="Title")
+'''class Blog(models.Model):
+  title = models.CharField(max_length=100, verbose_name="Title",blank=True,null=True)
   content= models.TextField()
-  created_at = models.DateTimeField(auto_now_add=True) 
+  created_at = models.DateTimeField(auto_now_add=True)'''
 
 class Community(models.Model):
   user=models.ForeignKey(User, on_delete=models.CASCADE)
