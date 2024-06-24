@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import User,Profile,Community,Course  #Blog
+from .models import User,Profile,Community,Course,Blog
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,authenticate,logout
@@ -8,7 +8,9 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import csrf_protect 
+from django.views.decorators.csrf import csrf_protect
+from .forms import BlogForm
+from django.shortcuts import get_object_or_404, redirect
 User=get_user_model()
 
 # Create your views here.
@@ -74,7 +76,7 @@ def login_view(request):
 
     if user is not None:
       login(request,user) #Log the user in
-      return redirect('home') #Redirect to home page or another view
+      return render(request,"nav/home.html",{"message" : "Logged"}) #Redirect to home page or another view(later on change)
     
     else:
       return render(request,'nav/login.html',{'message':"Invalid credentials"})
@@ -85,7 +87,46 @@ def login_view(request):
 def logout_view(request):
   logout(request)
 
-  return HttpResponseRedirect(reverse("landing"))
+  return render(request,"nav/home.html") #(Just for now)#return HttpResponseRedirect(reverse("landing"))
+
+def blog_list(request):
+  blogs=Blog.objects.all().order_by('created_at')
+  return render(request,"nav/blog_list.html" ,{"blogs":blogs})
+
+def blog_create(request):
+  if request.method=='POST':
+    form=BlogForm(request.POST)
+
+    if form.is_valid():
+      form.save()
+      return redirect('blog_list')
+  else:
+    form=BlogForm()  #If request is GET then an empty form is displayed for the user to fill out
+
+  return render(request,'nav/blog_form.html',{'form':form})  
+
+def blog_detail(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+    return render(request, 'nav/blog_detail.html', {'blog': blog})
+
+def blog_delete(reuest, blog_id):
+  blog=get_object_or_404(Blog, pk=blog_id)
+  blog.delete()
+  return redirect('blog_list')
+
+def blog_update(request,blog_id):
+  blog=get_object_or_404(Blog,pk=blog_id)
+  
+  if(request.method=='POST'):
+    form=BlogForm(request.POST,instance=blog) #instance is used to update the existing blog
+    if(form.is_valid()):
+       form.save()
+       return redirect('blog_detail',blog_id=blog_id)
+
+  else:
+      form=BlogForm(instance=blog)
+  
+  return render(request,'nav/blog_form.html',{'form':form})   
 
 
 

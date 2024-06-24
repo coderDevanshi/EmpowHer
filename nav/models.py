@@ -12,10 +12,13 @@ class Course(models.Model):
   description = models.TextField(verbose_name="Description")
   created_at=models.DateTimeField(auto_now_add=True)
 
-'''class Blog(models.Model):
+class Blog(models.Model):
   title = models.CharField(max_length=100, verbose_name="Title",blank=True,null=True)
   content= models.TextField()
-  created_at = models.DateTimeField(auto_now_add=True)'''
+  created_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return str(self.title)
 
 class Community(models.Model):
   user=models.ForeignKey(User, on_delete=models.CASCADE)
