@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
 from .forms import BlogForm
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
 User=get_user_model()
 
 # Create your views here.
@@ -93,6 +95,7 @@ def blog_list(request):
   blogs=Blog.objects.all().order_by('created_at')
   return render(request,"nav/blog_list.html" ,{"blogs":blogs})
 
+@login_required
 def blog_create(request):
   if request.method=='POST':
     form=BlogForm(request.POST)
@@ -109,11 +112,14 @@ def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, pk=blog_id)
     return render(request, 'nav/blog_detail.html', {'blog': blog})
 
+@login_required
 def blog_delete(reuest, blog_id):
   blog=get_object_or_404(Blog, pk=blog_id)
   blog.delete()
   return redirect('blog_list')
 
+
+@login_required
 def blog_update(request,blog_id):
   blog=get_object_or_404(Blog,pk=blog_id)
   

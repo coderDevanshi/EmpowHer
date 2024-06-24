@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,12 +8,12 @@
 
   <body>
     <h1>Blog List</h1>
-    <a href="% url 'blog_create' %">Create New Blog</a>
+    <a href="{% url 'blog_create' %}">Create New Blog</a>
     <ul>
       {%for blog in blogs %}
         <li>
           <a href="{% url 'blog_detail' blog.id %}">{{blog.title}}</a> -{{blog.created_at}}
-          <a href="{% url 'blog_edit' blog.id %}"> Edit</a>
+          <a href="{% url 'blog_update' blog.id %}"> Edit</a>
           <a href="{% url 'blog_delete' blog.id %}"> Delete</a>
 
          </li>
