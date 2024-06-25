@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
-from .forms import BlogForm
+from .forms import BlogForm,CourseForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -134,6 +134,26 @@ def blog_update(request,blog_id):
   
   return render(request,'nav/blog_form.html',{'form':form})   
 
+
+def course_create(request):
+  if request.method=='POST':
+    form=CourseForm(request.POST)
+
+    if form.is_valid():
+      form.save()
+      return redirect('course_list.html',{'form':form})
+    
+  else:
+    form=CourseForm()
+  return render(request, 'course_form.html',{'form':form}) 
+
+def course_list(request):
+  couses=Course.objects.all()
+  return render(request,'course_list.html',{'courses':courses})
+
+def course_detail(request):
+  course=get_object_or_404(Course,pk=course_id)
+  return render(request,'course_detail.html',{'course':course})
 
 
     
