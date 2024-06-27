@@ -141,19 +141,19 @@ def course_create(request):
 
     if form.is_valid():
       form.save()
-      return redirect('course_list.html',{'form':form})
+      return redirect('nav/course_create.html',{'form':form} ,{'message':"Course created successfully"})
     
   else:
     form=CourseForm()
-  return render(request, 'course_form.html',{'form':form}) 
+  return render(request, 'nav/course_form.html',{'form':form}) 
 
 def course_list(request):
-  couses=Course.objects.all()
-  return render(request,'course_list.html',{'courses':courses})
+  courses=Course.objects.all()
+  return render(request,'nav/course_list.html',{'courses':courses})
 
 def course_detail(request):
   course=get_object_or_404(Course,pk=course_id)
-  return render(request,'course_detail.html',{'course':course})
+  return render(request,'nav/course_detail.html',{'course':course})
 
 
     
