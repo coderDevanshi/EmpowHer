@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-_agd($n86(yj-t&z(gnqi-o_2j9xng0my7w#n88r*!4c%sc_ck
 DEBUG = True
 
 ALLOWED_HOSTS = ['.vercel.app',
-                 '127.0.0.1'
+                 '127.0.0.1',
+                 "*"  #Allow all traffic to the server
                 ]
 
 
