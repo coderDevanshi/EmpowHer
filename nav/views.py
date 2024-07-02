@@ -113,7 +113,7 @@ def blog_detail(request, blog_id):
     return render(request, 'nav/blog_detail.html', {'blog': blog})
 
 @login_required
-def blog_delete(reuest, blog_id):
+def blog_delete(request, blog_id):
   blog=get_object_or_404(Blog, pk=blog_id)
   blog.delete()
   return redirect('blog_list')
@@ -141,7 +141,7 @@ def course_create(request):
 
     if form.is_valid():
       form.save()
-      return redirect('nav/course_create.html',{'form':form} ,{'message':"Course created successfully"})
+      return redirect('course_list') #We always redirect to a path wheras when we use render wde just render the page i.e html file
     
   else:
     form=CourseForm()
@@ -151,8 +151,8 @@ def course_list(request):
   courses=Course.objects.all()
   return render(request,'nav/course_list.html',{'courses':courses})
 
-def course_detail(request):
-  course=get_object_or_404(Course,pk=course_id)
+def course_detail(request,course_id):
+  course=get_object_or_404(Course ,pk=course_id)
   return render(request,'nav/course_detail.html',{'course':course})
 
 
