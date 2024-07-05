@@ -3,17 +3,87 @@
   <head>
     <meta charset="utf-8">
     <title>Create/Edit Blog</title>
+    <style>
+      body {
+        background-color: #F1EAFF;
+        font-family: 'Times New Roman', Times, serif, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        padding: 20px;
+        max-width: 800px; /* Limit the width for a centered form */
+        margin: 50px auto; /* Center the form on the page */
+
+      }
+      h1 {
+        text-align: center;
+        color: #763dca;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 25px;
+        font-weight:bold;
+      }
+      input[type="text"], textarea {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 5px solid #F1EAFF;
+        border-radius: 5px ;
+        box-shadow: 0 4px 6px #8a8989;
+        font-size: 16px;
+        width: 100%; /* Ensure inputs and textarea take full width */
+        box-sizing: border-box; /* Ensure padding and border are included in the width */
+      }
+      textarea {
+        height: 200px; /* Set a consistent height for textarea */
+      }
+      button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #7d39e3;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        align-self: center; /* Center the button */
+        width: 150px; /* Set a fixed width for the button */
+      }
+      button:hover {
+        background-color: #5b28a4;
+      }
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007BFF;
+        text-decoration: none;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   
   <body>
-    <h1>Create/Edit Blog</h1>
-    <form method="post">
-      {% csrf_token %}
-      {{form.as_p}}
-
-      <button type="submit">Save</button>
-
-     </form>
-     <a href="{% url 'blog_list' %}">Back to Blog List</a>
+    <div class="container">
+      <h1>Create/Edit Blog</h1>
+      <form method="post">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}">
+        
+        <label for="content">Content:</label>
+        <textarea id="content" name="content">{{ form.content.value|default_if_none:'' }}</textarea>
+        
+        <button type="submit">Save</button>
+      </form>
+      <a class="back-link" href="{% url 'blog_list' %}">Back to Blog List</a>
+    </div>
   </body>
 </html>

@@ -4,21 +4,118 @@
   <head>
     <meta charset="utf-8">
     <title>Blog List</title>
+    <style>
+      body {
+        background-color: #DCBFFF;
+        font-family: 'Times New Roman', Times, serif, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        padding: 20px;
+      }
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .card-wrapper {
+        flex: 1 1 30%; /* Adjusting to 30% to fit better */
+        max-width: 30%; /* Ensuring it doesn't grow too large */
+        box-sizing: border-box;
+        margin: 10px 10px 40px 10px;
+      }
+      .card {
+        background-color: #f9f7ff;
+        border: 1px solid #7d39e3;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 6px #3d1a72;
+        height: 350px; /* Set a consistent height for each card */
+        opacity:0.8;
+      }
+      .card-content {
+        flex: 1;
+        font-size :18px;
+      }
+      .card-title {
+        color:#5a22ac;
+        font-size: 1.5em;
+        margin: 0;
+      }
+      .card-title a {
+        color: #5a22ac;;
+        text-decoration: underline;
+      }
+      .card-date {
+        font-size: 15px;
+        color: #777;
+        text-align: right;
+      }
+      .card-excerpt {
+        margin: 10px 0;
+        color: #333;
+        padding-top: 20px;
+        padding-bottom:20px;
+      }
+      .card-actions {
+        margin-top: 10px;
+      }
+      .card-actions a {
+        margin-right: 10px;
+        text-decoration: none;
+        color: #007BFF;
+      }
+      .card-actions a:hover {
+        text-decoration: underline;
+      }
+      .card-image-date {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+      .card img {
+        max-width: 150px;
+        max-height: 150px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>Blog List</h1>
-    <a href="{% url 'blog_create' %}">Create New Blog</a>
-    <ul>
-      {%for blog in blogs %}
-        <li>
-          <a href="{% url 'blog_detail' blog.id %}">{{blog.title}}</a> -{{blog.created_at}}
-          <a href="{% url 'blog_update' blog.id %}"> Edit</a>
-          <a href="{% url 'blog_delete' blog.id %}"> Delete</a>
-
-         </li>
-         
-      {% endfor %}
-    </ul>   
+    <div class="container">
+      <h1 style="text-align: center;">Blog List</h1>
+      <div style="text-align: center; font-size:25px;">
+        <a href="{% url 'blog_create' %}">Create New Blog</a>
+      </div>
+      <div class="card-container">
+        {% for blog in blogs %}
+          <div class="card-wrapper">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-title">
+                  <a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a>
+                </div>
+                <div class="card-excerpt">
+                  {{ blog.content|truncatechars:80 }}
+                </div>
+                <div class="card-actions">
+                  <a href="{% url 'blog_update' blog.id %}">Edit</a>
+                  <a href="{% url 'blog_delete' blog.id %}">Delete</a>
+                </div>
+              </div>
+              <div class="card-image-date">
+                <img src="{{ blog.image_url }}" alt="{{ blog.title }}">
+                <div class="card-date">{{ blog.created_at }}</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   </body>
 </html>
