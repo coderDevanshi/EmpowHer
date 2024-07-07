@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,13 +13,19 @@
       }
       .container {
         padding: 20px;
-        max-width: 800px; /* Limit the width for a centered form */
-        margin: 50px auto; /* Center the form on the page */
-
+        max-width: 800px;
+        margin: 50px auto;
+        background: url("{% static 'nav/images/blog-img.jpg' %}") no-repeat center center;
+        background-size: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: #ffffff; /* Ensure text color contrasts with the background */
+        position: relative;
+        opacity:0.8;
       }
       h1 {
         text-align: center;
-        color: #763dca;
+        color: black; /* White text color for better contrast */
       }
       form {
         display: flex;
@@ -26,22 +33,23 @@
       }
       label {
         margin-bottom: 5px;
-        color: #333;
+        color: black; /* White text color for better contrast */
         font-size: 25px;
-        font-weight:bold;
+        font-weight: bold;
       }
       input[type="text"], textarea {
         margin-bottom: 15px;
         padding: 10px;
-        border: 5px solid #F1EAFF;
-        border-radius: 5px ;
+        border: 2px solid #F1EAFF;
+        border-radius: 5px;
         box-shadow: 0 4px 6px #8a8989;
         font-size: 16px;
-        width: 100%; /* Ensure inputs and textarea take full width */
-        box-sizing: border-box; /* Ensure padding and border are included in the width */
+        width: 100%;
+        box-sizing: border-box;
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent input background */
       }
       textarea {
-        height: 200px; /* Set a consistent height for textarea */
+        height: 200px;
       }
       button {
         padding: 10px;
@@ -51,8 +59,8 @@
         color: white;
         font-size: 16px;
         cursor: pointer;
-        align-self: center; /* Center the button */
-        width: 150px; /* Set a fixed width for the button */
+        align-self: center;
+        width: 150px;
       }
       button:hover {
         background-color: #5b28a4;
@@ -71,6 +79,7 @@
   </head>
   
   <body>
+    {% load static %}
     <div class="container">
       <h1>Create/Edit Blog</h1>
       <form method="post">
@@ -79,7 +88,7 @@
         <input type="text" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}">
         
         <label for="content">Content:</label>
-        <textarea id="content" name="content">{{ form.content.value|default_if_none:'' }}</textarea>
+        <textarea id="content" name="content">{{ form.content.value|default_if_none:'' }}"></textarea>
         
         <button type="submit">Save</button>
       </form>

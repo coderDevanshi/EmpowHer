@@ -17,13 +17,14 @@
       .card-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 20px; /* Adds consistent space between the cards */
       }
       .card-wrapper {
-        flex: 1 1 30%; /* Adjusting to 30% to fit better */
-        max-width: 30%; /* Ensuring it doesn't grow too large */
+        flex: 1 1 300px; /* Adjusting to fit a minimum of 300px */
+        max-width: 300px; /* Ensuring it doesn't grow too large */
         box-sizing: border-box;
-        margin: 10px 10px 40px 10px;
+        margin: 10px; /* Adds space around each card */
       }
       .card {
         background-color: #f9f7ff;
@@ -35,19 +36,19 @@
         justify-content: space-between;
         box-shadow: 0 4px 6px #3d1a72;
         height: 350px; /* Set a consistent height for each card */
-        opacity:0.8;
+        opacity: 0.8;
       }
       .card-content {
         flex: 1;
-        font-size :18px;
+        font-size: 18px;
       }
       .card-title {
-        color:#5a22ac;
+        color: #5a22ac;
         font-size: 1.5em;
         margin: 0;
       }
       .card-title a {
-        color: #5a22ac;;
+        color: #5a22ac;
         text-decoration: underline;
       }
       .card-date {
@@ -59,7 +60,7 @@
         margin: 10px 0;
         color: #333;
         padding-top: 20px;
-        padding-bottom:20px;
+        padding-bottom: 20px;
       }
       .card-actions {
         margin-top: 10px;
@@ -89,7 +90,7 @@
   <body>
     <div class="container">
       <h1 style="text-align: center;">Blog List</h1>
-      <div style="text-align: center; font-size:25px;">
+      <div style="text-align: center; font-size: 25px;">
         <a href="{% url 'blog_create' %}">Create New Blog</a>
       </div>
       <div class="card-container">

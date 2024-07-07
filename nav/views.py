@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_protect
 from .forms import BlogForm,CourseForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
 User=get_user_model()
 
@@ -134,7 +135,7 @@ def blog_update(request,blog_id):
   
   return render(request,'nav/blog_form.html',{'form':form})   
 
-
+@staff_member_required 
 def course_create(request):
   if request.method=='POST':
     form=CourseForm(request.POST)
@@ -153,6 +154,7 @@ def course_list(request):
 
 def course_detail(request,course_id):
   course=get_object_or_404(Course ,pk=course_id)
+  
   return render(request,'nav/course_detail.html',{'course':course})
 
 

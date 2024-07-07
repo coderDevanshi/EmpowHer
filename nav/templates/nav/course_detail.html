@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
-
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title>{{course.title}}</title>
-  </head>
-
-  <body>
-    <h1>{{course.title}}</h1>
-    <p>{{course.description}}</p>
+    <title>{{ course.title }}</title>
+</head>
+<body>
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
 
     <p>
-      <strong>Video:</strong> <a href="{{course.video_link}}">{{course.video_link}}</a>
+        <strong>Video:</strong>
+        {% if course.video_link %}
+            <iframe width="560" height="315" 
+                src='https://www.youtube.com/embed/{{course.video_link}}'
+                 
+                title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        {% else %}
+            No video available
+        {% endif %}
     </p>
-    
-    <p>Created at:{{course.created_at}}</p>
-    <a href="{% url 'course_list' %}">Back to Course List</a>    
-  </body>
+
+    <p>Created at: {{ course.created_at }}</p>
+    <a href="{% url 'course_list' %}">Back to Course List</a>
+</body>
 </html>
