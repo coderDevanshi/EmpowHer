@@ -15,4 +15,9 @@ urlpatterns=[
   path('course_list/',views.course_list,name='course_list'),
   path('course_create/',views.course_create,name='course_create'),
   path('courses/<int:course_id>/',views.course_detail , name='course_detail'),
+  path('blog/<int:blog_id>/like/', views.like_blog, name='like_blog'),
+  path('add_to_watchlist/<int:course_id>/', views.add_to_watchlist, name='add_to_watchlist'),
+  path('watchlist/', views.watchlist, name='watchlist'),
+  path('add_to_readlist/<int:blog_id>/', views.add_to_readlist, name='add_to_readlist'),
+  path('readlist/', views.readlist, name='readlist'),
 ]

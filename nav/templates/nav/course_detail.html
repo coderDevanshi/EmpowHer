@@ -3,26 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ course.title }}</title>
+    <style>
+        body {
+            background-color: #F1EAFF;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border: 1px solid #d3c3f3;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #763dca;
+            text-align: center;
+        }
+        p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        strong {
+            color: #763dca;
+        }
+        iframe {
+            display: block;
+            margin: 20px auto;
+            border: none;
+            border-radius: 5px;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ course.title }}</h1>
-    <p>{{ course.description }}</p>
+    <div class="container">
+        <h1>{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
 
-    <p>
-        <strong>Video:</strong>
-        {% if course.video_link %}
-            <iframe width="560" height="315" 
-                src='https://www.youtube.com/embed/{{course.video_link}}'
-                 
-                title="YouTube video player" frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        {% else %}
-            No video available
-        {% endif %}
-    </p>
+        <p>
+            <strong>Video:</strong>
+            {% if course.video_link %}
+                <iframe width="560" height="315" 
+                    src="https://www.youtube.com/embed/{{ course.video_link }}"
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                </iframe>
+            {% else %}
+                No video available
+            {% endif %}
+        </p>
 
-    <p>Created at: {{ course.created_at }}</p>
-    <a href="{% url 'course_list' %}">Back to Course List</a>
+        <p><strong>Created at:</strong> {{ course.created_at }}</p>
+        <a href="{% url 'course_list' %}">Back to Course List</a>
+    </div>
 </body>
 </html>

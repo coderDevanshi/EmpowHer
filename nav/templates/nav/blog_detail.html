@@ -1,15 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>{{blog.title}}</title>
-
-  </head>
-  <body>
-    <h1>{{blog.title}}</h1>
-    <p>{{blog.content}}</p>
-    <p>Created at: {{blog.created_at}}</p>
-
-    <a href="{% url 'blog_list' %}">Bck to Blog List</a>
-  </body>
+    <title>{{ blog.title }}</title>
+    <style>
+        body {
+            background-color: #F1EAFF;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border: 1px solid #d3c3f3;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #763dca;
+            text-align: center;
+        }
+        p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        strong {
+            color: #763dca;
+        }
+        iframe {
+            display: block;
+            margin: 20px auto;
+            border: none;
+            border-radius: 5px;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ blog.title }}</h1>
+        <p>{{ blog.content }}</p>
+        <p><strong>Created at:</strong> {{ blog.created_at }}</p>
+        <a href="{% url 'blog_list' %}">Back to Blog List</a>
+    </div>
+</body>
 </html>

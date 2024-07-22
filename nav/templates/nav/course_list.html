@@ -1,96 +1,108 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Course List</title>
     <style>
-      body {
-        background-color: #DCBFFF;
-        font-family: 'Times New Roman', Times, serif, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        padding: 20px;
-        text-align: center;
-      }
-      .header {
-        margin-bottom: 20px;
-      }
-      .header h1 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
-      }
-      .header a {
-        font-size: 1.2em;
-        color: #007BFF;
-        text-decoration: none;
-      }
-      .header a:hover {
-        text-decoration: underline;
-      }
-      .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-      }
-      .card-wrapper {
-        flex: 1 1 300px;
-        max-width: 300px;
-        box-sizing: border-box;
-      }
-      .card {
-        background-color: #f9f7ff;
-        border: 1px solid #7d39e3;
-        border-radius: 12px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        box-shadow: 0 4px 6px #3d1a72;
-        height: 200px;
-        opacity: 0.8;
-      }
-      .card-content {
-        flex: 1;
-        font-size: 18px;
-      }
-      .card-title {
-        color: #5a22ac;
-        font-size: 1.5em;
-        margin: 0;
-        padding-bottom:20px;
-      }
-      .card-title a {
-        color: #5a22ac;
-        text-decoration: underline;
-      }
+        body {
+            background-color: #DCBFFF;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header a {
+            font-size: 1.2em;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .card-wrapper {
+            flex: 1 1 300px;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: #f9f7ff;
+            border: 1px solid #7d39e3;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px #3d1a72;
+            height: 250px;
+            opacity: 0.8;
+        }
+        .card-title {
+            color: #5a22ac;
+            font-size: 1.5em;
+            margin: 0;
+            padding-bottom: 20px;
+        }
+        .card-title a {
+            color: #5a22ac;
+            text-decoration: underline;
+        }
+        .card-excerpt {
+            margin: 10px 0;
+            color: #333;
+            flex: 1;
+        }
+        .card-actions {
+            margin-top: auto;
+            font-size: 17px;
+        }
+        .card-actions a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .card-actions a:hover {
+            text-decoration: underline;
+        }
     </style>
-  </head>
-
-  <body>
+</head>
+<body>
     <div class="container">
-      <div class="header">
-        <h1>Course List</h1>
-        <a href="{% url 'course_create' %}">Create New Course</a>
-      </div>
-      <div class="card-container">
-        {% for course in courses %}
-          <div class="card-wrapper">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-title">
-                  <a href="{% url 'course_detail' course.id %}">{{ course.title }}</a>
+        <div class="header">
+            <h1>Course List</h1>
+            <a href="{% url 'course_create' %}">Create New Course</a>
+        </div>
+        <div class="card-container">
+            {% for course in courses %}
+            <div class="card-wrapper">
+                <div class="card">
+                    <div class="card-title">
+                        <a href="{% url 'course_detail' course.id %}">{{ course.title }}</a>
+                    </div>
+                    <div class="card-excerpt">
+                        {{ course.description|truncatechars:80 }}
+                    </div>
+                    <div class="card-actions">
+                        <a href="{% url 'add_to_watchlist' course.id %}">Add to Watchlist</a>
+                    </div>
                 </div>
-                <div class="card-excerpt">
-                  {{ course.description|truncatechars:80 }}
-                </div>
-              </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
+            {% endfor %}
+        </div>
     </div>
-  </body>
+</body>
 </html>

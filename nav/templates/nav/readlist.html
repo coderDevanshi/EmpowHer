@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Readlist</title>
+    <style>
+        body {
+            background-color: #DCBFFF;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header a {
+            font-size: 1.2em;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .card-wrapper {
+            flex: 1 1 300px;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: #f9f7ff;
+            border: 1px solid #7d39e3;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px #3d1a72;
+            height: 350px; /* Increased height to accommodate more content */
+            opacity: 0.8;
+        }
+        .card-content {
+            flex: 1;
+            font-size: 18px;
+        }
+        .card-title {
+            color: #5a22ac;
+            font-size: 1.5em;
+            margin: 0;
+            padding-bottom: 20px;
+        }
+        .card-title a {
+            color: #5a22ac;
+            text-decoration: underline;
+        }
+        .card-date {
+            font-size: 15px;
+            color: #777;
+            text-align: right;
+        }
+        .card-excerpt {
+            margin: 10px 0;
+            color: #333;
+        }
+        .card-actions {
+            margin-top: 10px;
+        }
+        .card-actions a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .card-actions a:hover {
+            text-decoration: underline;
+        }
+        .card-image-date {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .card img {
+            max-width: 150px;
+            max-height: 150px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .like-button {
+            cursor: pointer;
+            color: red;
+            font-size: 20px;
+        }
+        .like-count {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Readlist</h1>
+        </div>
+        <div class="card-container">
+            {% for readlist_item in readlist_blogs %}
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-title">
+                                <a href="{% url 'blog_detail' readlist_item.blog.id %}">{{ readlist_item.blog.title }}</a>
+                            </div>
+                            <div class="card-excerpt">
+                                {{ readlist_item.blog.content|truncatechars:80 }}
+                            </div>
+                            <div class="card-actions">
+                                <a href="{% url 'blog_update' readlist_item.blog.id %}">Edit</a>
+                                <a href="{% url 'blog_delete' readlist_item.blog.id %}">Delete</a>
+                            </div>
+                            <div class="like-container">
+                                <span class="like-button" data-blog-id="{{ readlist_item.blog.id }}">💜</span>
+                                <span class="like-count">{{ readlist_item.blog.like_count }}</span>
+                            </div>
+                        </div>
+                        <div class="card-image-date">
+                            <img src="{{ readlist_item.blog.image_url }}" alt="{{ readlist_item.blog.title }}">
+                            <div class="card-date">{{ readlist_item.blog.created_at }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No blogs in your readlist.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

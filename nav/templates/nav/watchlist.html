@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Watchlist</title>
+    <style>
+        /* Your existing CSS styles */
+      body {
+        background-color: #DCBFFF;
+        font-family: 'Times New Roman', Times, serif, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        padding: 20px;
+        text-align: center;
+      }
+      .header {
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+      .header a {
+        font-size: 1.2em;
+        color: #007BFF;
+        text-decoration: none;
+      }
+      .header a:hover {
+        text-decoration: underline;
+      }
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+      .card-wrapper {
+        flex: 1 1 300px;
+        max-width: 300px;
+        box-sizing: border-box;
+      }
+      .card {
+        background-color: #f9f7ff;
+        border: 1px solid #7d39e3;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 6px #3d1a72;
+        height: 250px;
+        opacity: 0.8;
+      }
+      .card-content {
+        flex: 1;
+        font-size: 18px;
+      }
+      .card-title {
+        color: #5a22ac;
+        font-size: 1.5em;
+        margin: 0;
+        padding-bottom: 20px;
+      }
+      .card-title a {
+        color: #5a22ac;
+        text-decoration: underline;
+      }
+      .card-excerpt {
+        margin: 10px 0;
+        color: #333;
+      }
+      .card-actions {
+        margin-top: 10px;
+      }
+      .card-actions a {
+        margin-right: 10px;
+        text-decoration: none;
+        color: #007BFF;
+      }
+      .card-actions a:hover {
+        text-decoration: underline;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Watchlist</h1>
+        </div>
+        <div class="card-container">
+            {% for watchlist_item in watchlist_courses %}
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-title">
+                                <a href="{% url 'course_detail' watchlist_item.course.id %}">{{ watchlist_item.course.title }}</a>
+                            </div>
+                            <div class="card-excerpt">
+                                {{ watchlist_item.course.description|truncatechars:80 }}
+                            </div>
+                        </div>
+                        <!-- Add more details as needed -->
+                    </div>
+                </div>
+            {% empty %}
+                <p>No courses in your watchlist.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

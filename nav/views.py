@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import User,Profile,Community,Course,Blog
+from .models import User,Profile,Course,Blog,Watchlist,Readlist,Like 
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,authenticate,logout
@@ -13,6 +13,7 @@ from .forms import BlogForm,CourseForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.http import JsonResponse
 
 User=get_user_model()
 
@@ -142,8 +143,7 @@ def course_create(request):
 
     if form.is_valid():
       form.save()
-      return redirect('course_list') #We always redirect to a path wheras when we use render wde just render the page i.e html file
-    
+      return redirect('course_list') #We always redirect to a url/path name not the actual path and render to the actual path or html page
   else:
     form=CourseForm()
   return render(request, 'nav/course_form.html',{'form':form}) 
@@ -157,5 +157,48 @@ def course_detail(request,course_id):
   
   return render(request,'nav/course_detail.html',{'course':course})
 
+def like_blog(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    blog.like_count += 1
+    blog.save()
+    return JsonResponse({'like_count': blog.like_count})
 
-    
+@login_required
+def add_to_watchlist(request,course_id):
+  course=get_object_or_404(Course, id=course_id)
+
+  Watchlist.objects.get_or_create(user=request.user,course=course) #get_or_create is a method that returns an object if it exists or creates a new object if it does not exist .In Watchlist.objects.create(user=request.user,course=course) watchlist is the model name and user and course are the fields in the model the working is as follows 
+
+  return redirect('watchlist')
+
+@login_required
+def watchlist(request):
+  watchlist_courses=Watchlist.objects.filter(user=request.user)
+  return render(request, 'nav/watchlist.html', {'watchlist_courses': watchlist_courses})
+
+@login_required
+def add_to_readlist(request,blog_id):
+  blog=get_object_or_404(Blog,id=blog_id)
+  Readlist.objects.get_or_create(user=request.user,blog=blog)
+  return redirect('readlist')
+
+@login_required
+def readlist(request):
+  readlist_blogs=Readlist.objects.filter(user=request.user)
+  return render(request,'nav/readlist.html',{'readlist_blogs':readlist_blogs})
+
+@login_required
+def like_blog(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    user = request.user
+
+    # Check if the user has already liked the blog
+    if Like.objects.filter(user=user, blog=blog).exists():
+        return JsonResponse({'message': 'You have already liked this blog.'}, status=400)
+
+    # Create a new like
+    Like.objects.create(user=user, blog=blog)
+    blog.like_count += 1
+    blog.save()
+
+    return JsonResponse({'like_count': blog.like_count})
