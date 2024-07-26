@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>{{ blog.title }}</title>
+    <meta charset="UTF-8">
+    <title>{{ job.job_title }}</title>
     <style>
         body {
             background-color: #F1EAFF;
@@ -51,12 +51,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>{{ blog.title }}</h1>
-        <p>{{ blog.content }}</p>
-        <p><strong>Created at:</strong> {{ blog.created_at }}</p>
-        <a href="{% url 'blog_list' %}">Back to Blog List</a>
+        <h1>{{ job.job_title }}</h1>
+        <a href="{{ job.link }}">Apply Here</a>
+        <p>{{ job.salary_from}}</p>
+        <p>{{ job.salary_to}}</p>
+        <p>{{ job.salary_currency}}</p>
+        <p>{{ job.salary_periodicity}}</p>
+        <p>{{ job.salary_period}}</p>
+
+        <a href="{% url 'job_list' %}">Back to Job List</a>
     </div>
 </body>
 </html>
-
 

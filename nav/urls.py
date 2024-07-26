@@ -20,4 +20,6 @@ urlpatterns=[
   path('watchlist/', views.watchlist, name='watchlist'),
   path('add_to_readlist/<int:blog_id>/', views.add_to_readlist, name='add_to_readlist'),
   path('readlist/', views.readlist, name='readlist'),
+  path('job_list/',views.job_list,name='job_list'),
+  path('job_detail/<int:job_id>/',views.job_detail,name='job_detail'),
 ]

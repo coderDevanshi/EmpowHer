@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import User,Profile,Course,Blog,Watchlist,Readlist,Like 
+from .models import User,Profile,Course,Blog,Watchlist,Readlist,Like,Jobs
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,authenticate,logout
@@ -202,3 +202,22 @@ def like_blog(request, blog_id):
     blog.save()
 
     return JsonResponse({'like_count': blog.like_count})
+
+def job_list(request):
+  jobs=Jobs.objects.all()
+  return render(request,'nav/job_list.html',{'jobs':jobs})
+
+
+def job_detail(request,job_id):
+  job=get_object_or_404(Jobs ,pk=job_id)
+  return render(request, 'nav/job_detail.html',{'job':job})
+
+
+# def course_list(request):
+#   courses=Course.objects.all()
+#   return render(request,'nav/course_list.html',{'courses':courses})
+
+# def course_detail(request,course_id):
+#   course=get_object_or_404(Course ,pk=course_id)
+  
+#   return render(request,'nav/course_detail.html',{'course':course})
