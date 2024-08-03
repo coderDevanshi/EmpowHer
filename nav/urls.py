@@ -22,4 +22,7 @@ urlpatterns=[
   path('readlist/', views.readlist, name='readlist'),
   path('job_list/',views.job_list,name='job_list'),
   path('job_detail/<int:job_id>/',views.job_detail,name='job_detail'),
+  path('home',views.home,name="home"),
+  path('upload/', views.upload_file, name='upload_file'),
+  path('upload/success/', views.upload_success, name='upload_success'),
 ]

@@ -72,6 +72,11 @@ class Jobs(models.Model):
   salary_period=models.CharField(max_length=300, verbose_name="salary_period")
   based_on=models.CharField(max_length=300, verbose_name="based_on")
 
+
+class Resume(models.Model):
+  document=models.FileField(upload_to='documents/')
+   
+
   '''class Community(models.Model):
   user=models.ForeignKey(User, on_delete=models.CASCADE)
   content=models.TextField()

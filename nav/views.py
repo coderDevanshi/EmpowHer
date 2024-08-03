@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import User,Profile,Course,Blog,Watchlist,Readlist,Like,Jobs
+from .models import User,Profile,Course,Blog,Watchlist,Readlist,Like,Jobs,Resume
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,authenticate,logout
@@ -9,11 +9,15 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
-from .forms import BlogForm,CourseForm
+from .forms import BlogForm,CourseForm,ResumeForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
+from pypdf import PdfReader
+import os
+import google.generativeai as genai
+import markdown
 
 User=get_user_model()
 
@@ -22,6 +26,9 @@ User=get_user_model()
   class Meta:
     model=Comment
     fields=['content']'''
+
+def home(request):
+  return render(request,'nav/home.html')
 
 def register(request):
   if request.method=='POST':
@@ -211,6 +218,97 @@ def job_list(request):
 def job_detail(request,job_id):
   job=get_object_or_404(Jobs ,pk=job_id)
   return render(request, 'nav/job_detail.html',{'job':job})
+
+# def resume_upload(request):
+
+#   if request.method=='POST':
+#     form=ResumeForm(request.POST,request.FILES)
+
+#     if form.is_valid():
+#       resume=form.save()
+#       return redirect('resume_upload')
+
+# def extraxt_text(request):
+#   document=PdfReader('documents/')
+#   page=document.pages[0]
+
+#   text = (page.extract_text())
+
+#   return text
+
+def get_score(text):
+  
+  #to access the api key as an env variable
+  genai.configure(api_key="AIzaSyAUYkJPPsdmLrYUzYWDq8g0Vxwc7t9ZEUk")
+
+  model=genai.GenerativeModel('gemini-1.5-flash')
+
+  prompt=text+"get the ats score, areas of improvement and recommendation and this should be displayed in this format:-\nScore:\nAreas of Improvement:\nRecommendation:\n\n"
+
+  response=model.generate_content(prompt,stream=True)
+
+  resp = ""
+  for chunk in response:
+    resp += chunk.text
+  return resp
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = ResumeForm(request.POST, request.FILES)
+        if form.is_valid():
+            document = form.save()
+            # Extract text from the uploaded PDF
+            pdf_path = document.document.path
+            response = extract_text_from_pdf(pdf_path)
+            ats_score = get_score(response)
+            #delete the file after extracting the text
+            os.remove(pdf_path)
+            ats_score = markdown.markdown(ats_score)
+            return render(request, 'nav/display_text.html', {'ats_score': ats_score})
+    else:
+        form = ResumeForm()
+    return render(request, 'nav/upload.html', {'form': form})
+def upload_success(request):
+    return render(request, 'nav/upload_success.html')
+
+
+def extract_text_from_pdf(pdf_path):
+    text = ""
+    reader = PdfReader(pdf_path)
+    for page in reader.pages:
+        text += page.extract_text() or ""  # Some pages might have no text
+    return text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # def course_list(request):
