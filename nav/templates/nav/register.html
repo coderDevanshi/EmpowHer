@@ -3,49 +3,147 @@
   <head>
     <meta charset="utf-8">
     <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {% load static %}
+    <style>
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #D0A2F7 ;
+        }
+
+        .bg-image {
+            background-image: url('{% static "nav/images/login-bg.png" %}'); 
+            height: auto;
+            background-position: center;
+            /* background-repeat: no-repeat;*/
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .register-card {
+            background: rgba(227, 197, 252, 0.943);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 5px;
+            max-width: 420px;
+            width: 100%;
+            margin-bottom: 0px;
+            margin-top: 30px;
+            text-align: center;
+            opacity : 0.7;
+        }
+
+        .register-card h2 {
+            margin-bottom: 20px;
+        }
+
+        .register-card input[type="text"], 
+        .register-card input[type="email"],
+        .register-card input[type="password"],
+        .register-card input[type="confirmation"] 
+        {
+            width: 97%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .register-card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #b063f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-card button:hover {
+            background-color: #a84df7;
+        }
+
+        .register-card p {
+            color: red;
+        }
+    </style>
 
   </head>
 
   <body>
-    <h2>REGISTER</h2>
-    {% if message %}
-      <p style="color:red">{{message}}</p>
+    <header class="text-gray-600 body-font">
+      <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="ml-3 text-xl">EmpowHer</span>
+        </a>
+        <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+          <a class="mr-5 hover:text-gray-900">Home</a>
+          <a class="mr-5 hover:text-gray-900" href="{% url 'course_list' %}">Courses</a>
+          <a class="mr-5 hover:text-gray-900" href="{% url 'job_list' %}">Jobs</a>
+          <a class="mr-5 hover:text-gray-900" href="{% url 'blog_list' %}">Blogs</a>
+          <a class="mr-5 hover:text-gray-900" href="{% url 'upload_file' %}">Resume</a>
+        </nav>
+        <a href="{% url 'login_view' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">LOGIN</a>
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+  
+    <div class ="bg-image">
+      <div class="register-card" >
 
-    {% endif %}
-    <form method="post">
-      {% csrf_token %}
-      <label for ="name">Name:</label><br>
-      <input type="text" id="name" name="name" required><br><br>
+        <h2 style="font-family: 'Times New Roman', Times, serif">REGISTER</h2>
+        {% if message %}
+          <p style="color:red">{{message}}</p>
+    
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <label for ="name">Name:</label><br>
+          <input type="text" id="name" name="name" required><br><br>
+    
+          <label for="email">Email:</label><br>
+          <input type="email" id="email" name="email" required><br><br>
+    
+          <label for="gender">Gender:</label><br>
+          <input type="text" id="gender" name="gender" required><br><br>
+    
+          <label for="password">Password:</label><br>
+          <input type="password" id="password" name="password" required><br><br>
+    
+          <label for="confirmation">Confirmation:</label><br>
+          <input type="confirmation" id="confirmation" name="confirmation" required><br><br>
+    
+          <label for="branch">Branch:</label><br>
+          <input type="text" id="branch" name="branch" required><br><br>
+    
+          <label for="degree">Degree:</label><br>
+          <input type="text" id="degree" name="degree" required><br><br>
+    
+          <label for="marks_10">10th Grade Marks:</label><br>
+          <input type="text" id="marks_10" name="marks_10" required><br><br>
+    
+          <label for="marks_12">12th Grade Marks:</label><br>
+          <input type="text" id="marks_12" name="marks_12" required><br><br>
+    
+          <label for="skill">Skills:</label><br>
+          <input type="text" id="skill" name="skill" required><br><br>
+    
+          <button type="submit">Register</button>
+    
+        </form>  
 
-      <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" required><br><br>
-
-      <label for="gender">Gender:</label><br>
-      <input type="text" id="gender" name="gender" required><br><br>
-
-      <label for="password">Password:</label><br>
-      <input type="password" id="password" name="password" required><br><br>
-
-      <label for="confirmation">Confirmation:</label><br>
-      <input type="confirmation" id="confirmation" name="confirmation" required><br><br>
-
-      <label for="branch">Branch:</label><br>
-      <input type="text" id="branch" name="branch" required><br><br>
-
-      <label for="degree">Degree:</label><br>
-      <input type="text" id="degree" name="degree" required><br><br>
-
-      <label for="marks_10">10th Grade Marks:</label><br>
-      <input type="text" id="marks_10" name="marks_10" required><br><br>
-
-      <label for="marks_12">12th Grade Marks:</label><br>
-      <input type="text" id="marks_12" name="marks_12" required><br><br>
-
-      <label for="skill">Skills:</label><br>
-      <input type="text" id="skill" name="skill" required><br><br>
-
-      <button type="submit">Register</button>
-
-    </form>  
+      </div>
+    </div>
+  
   </body>
 </html>
