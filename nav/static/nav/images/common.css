@@ -1,0 +1,51 @@
+/* common.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Times New Roman', Times, serif, sans-serif;
+}
+
+header {
+  background: linear-gradient(to right, #dda8dd, #a167c9, #a18bca); /* Lilac, purple, lavender tones */
+  padding: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+header a:hover {
+  color: #e2e8f0;
+}
+
+/*header nav a {
+  margin-right: 1.5rem;
+  transition: color 0.3s ease;
+}*/
+
+header .title-font {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+header svg {
+  margin-right: 10px;
+}
+
+/* Ensure the login button text color is blue */
+header .login-btn {
+  background-color: white;
+  color:  #6366f1 !important; /* Force blue color for the text */
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+header .login-btn:hover {
+  background-color: #f0f0f0;
+  color: blue !important; /* Ensure the text remains blue on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

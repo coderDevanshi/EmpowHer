@@ -164,11 +164,26 @@ def course_detail(request,course_id):
   
   return render(request,'nav/course_detail.html',{'course':course})
 
+''' @login_required
 def like_blog(request, blog_id):
-    blog = get_object_or_404(Blog, id=blog_id)
-    blog.like_count += 1
-    blog.save()
-    return JsonResponse({'like_count': blog.like_count})
+    # Check if the user has already liked the blog
+    liked = Like.objects.filter(blog=blog, user=user).exists()
+
+    if liked:
+        # Unlike the blog if already liked
+        Like.objects.filter(blog=blog, user=user).delete()
+        liked = False
+    else:
+        # Like the blog
+        Like.objects.create(blog=blog, user=user)
+        liked = True
+
+    # Return the updated like count and like status
+    return JsonResponse({
+        'liked': liked,
+        'like_count': blog.like_set.count()  # Update like count
+    }) '''
+
 
 @login_required
 def add_to_watchlist(request,course_id):

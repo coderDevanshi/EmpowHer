@@ -25,14 +25,6 @@ class Blog(models.Model):
   def __str__(self):
     return str(self.title)
   
-class Watchlist(models.Model):
-  user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="user_watchlist") #Creates a foreignkey relationship between the WatchList Model and the User model 
-  course=models.ForeignKey(Course,on_delete=models.CASCADE ,related_name='course_watchlist')
-
-class Readlist(models.Model):
-  user=models.ForeignKey(User,on_delete=models.CASCADE)
-  blog=models.ForeignKey(Blog,on_delete=models.CASCADE)
-
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
@@ -42,7 +34,15 @@ class Like(models.Model):
         unique_together = ('user', 'blog')
 
     def __str__(self):
-        return f"{self.user.username} likes {self.blog.title}"  
+        return f"{self.user.username} likes {self.blog.title}"    
+  
+class Watchlist(models.Model):
+  user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="user_watchlist") #Creates a foreignkey relationship between the WatchList Model and the User model 
+  course=models.ForeignKey(Course,on_delete=models.CASCADE ,related_name='course_watchlist')
+
+class Readlist(models.Model):
+  user=models.ForeignKey(User,on_delete=models.CASCADE)
+  blog=models.ForeignKey(Blog,on_delete=models.CASCADE)
 
 class Profile(models.Model):
   branches=[("Computer Science","COMPUTER SCIENCE") , ("Science", "SCIENCE") ,("Commerce" , "COMMERCE") ,("Arts","ARTS"),("All","ALL"),("Other","OTHERS")]

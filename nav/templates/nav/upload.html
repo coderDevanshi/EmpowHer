@@ -1,38 +1,183 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload PDF</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <link rel="stylesheet" href="{% static 'nav/images/common.css' %}">
+
+    <style>
+        /* Global Styling */
+        body {
+            background-color: #e5d0ff;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Adjust to start the header from the top */
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Card Container */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1; /* Ensures card is in the center after the header */
+            width: 100%;
+        }
+
+        .card {
+            background-color: #fff;
+            width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /*animation: fadeIn 0.5s ease-in-out;*/
+        }
+
+        /* Card Header */
+        .card-header {
+            background: linear-gradient(135deg,  #eebaee, #b982de, #bda8e6);
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .card-header p {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input[type="file"]:focus {
+            border-color:   #a167c9;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            background-color: #a167c9;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #9553c1;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .card {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <header class="text-gray-600 body-font"></header>
-        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
-            <span class="ml-3 text-xl">EmpowHer</span>
-          </a>
-          <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-gray-900">Home</a>
-            <a class="mr-5 hover:text-gray-900" href="{% url 'course_list' %}">Courses</a>
-            <a class="mr-5 hover:text-gray-900" href="{% url 'job_list' %}">Jobs</a>
-            <a class="mr-5 hover:text-gray-900" href="{% url 'blog_list' %}">Blogs</a>
-            <a class="mr-5 hover:text-gray-900" href="{% url 'upload_file' %}">Resume</a>
-          </nav>
-          <a href="{% url 'login_view' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">LOGIN</a>
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </button>
-        </div>
-      </header>
-    <h1>Upload PDF</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-    </form>
+  <!-- Header Section -->
+  <header class="text-gray-600 body-font w-full">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+        <span class="ml-3 text-xl">EmpowHer</span>
+      </a>
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        <a class="mr-5 hover:text-gray-900" href="{% url 'home' %}">Home</a>
+        <a class="mr-5 hover:text-gray-900" href="{% url 'course_list' %}">Courses</a>
+        <a class="mr-5 hover:text-gray-900" href="{% url 'job_list' %}">Jobs</a>
+        <a class="mr-5 hover:text-gray-900" href="{% url 'blog_list' %}">Blogs</a>
+        <a class="mr-5 hover:text-gray-900" href="{% url 'upload_file' %}">Resume</a>
+      </nav>
+      <a href="{% url 'login_view' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" style="margin-right:10px;">LOGIN</a>
+      <a href="{% url 'register' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">REGISTER</a>
+      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Card Section -->
+  <div class="card-container">
+    <div class="card">
+      <div class="card-header">
+          <h1>Upload PDF</h1>
+          <p>Select your PDF document to upload</p>
+      </div>
+      <div class="card-body">
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                  {{ form.as_p }}
+              </div>
+              <button type="submit" class="btn-submit">Upload PDF</button>
+          </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

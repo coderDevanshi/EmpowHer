@@ -1,9 +1,13 @@
+{%load static%}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Blog List</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="{% static 'nav/images/common.css' %}">
 
     <style>
         /* Your existing CSS styles */
@@ -15,6 +19,22 @@
         }
         .container {
             padding: 20px;
+        }
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header a {
+            font-size: 1.2em;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .header a:hover {
+            text-decoration: underline;
         }
         .card-container {
             display: flex;
@@ -114,24 +134,32 @@
             <span class="ml-3 text-xl">EmpowHer</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-gray-900">Home</a>
+            <a class="mr-5 hover:text-gray-900" href="{% url 'home' %}">Home</a>
             <a class="mr-5 hover:text-gray-900" href="{% url 'course_list' %}">Courses</a>
             <a class="mr-5 hover:text-gray-900" href="{% url 'job_list' %}">Jobs</a>
             <a class="mr-5 hover:text-gray-900" href="{% url 'blog_list' %}">Blogs</a>
             <a class="mr-5 hover:text-gray-900" href="{% url 'upload_file' %}">Resume</a>
+            <a class="mr-5 hover:text-gray-900" href="{% url 'logout_view' %}">Logout</a>
+            
           </nav>
-          <a href="{% url 'login_view' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">LOGIN</a>
+          <a href="{% url 'login_view' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" style="margin-right:10px;">LOGIN</a>
+
+          <a href="{% url 'register' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">REGISTER</a>
+
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
-          </button>
         </div>
       </header>
-    <div class="container">
-        <h1 style="text-align: center;">Blog List</h1>
+      <div class="container">
+        <!---<h1 style="text-align: center;">Blog List</h1>
         <div style="text-align: center; font-size: 25px;">
-            <a href="{% url 'blog_create' %}">Create New Blog</a>
-        </div>
+            <a href="{% url 'blog_create' %}">Create New Blog</a>-->
+            <div class="header">
+                <h1>Blog List</h1>
+                <a href="{% url 'blog_create' %}">Create New Blog</a>
+            </div>
+
         <div class="card-container">
             {% for blog in blogs %}
                 <div class="card-wrapper">
@@ -149,7 +177,9 @@
                                 <a href="{% url 'add_to_readlist' blog.id %}">Add to Readlist</a>
                             </div>
                             <div class="like-container">
-                                <span class="like-button {% if blog.id in user_likes %}liked{% endif %}" data-blog-id="{{ blog.id }}">💜</span>
+                                <span class="like-button {% if blog.id in user_likes %}liked{% endif %}" data-blog-id="{{ blog.id }}">
+                                    {% if blog.id in user_likes %}💜{% else %}🤍{% endif %}
+                                </span>
                                 <span class="like-count">{{ blog.like_set.count }}</span>
                             </div>
                         </div>
@@ -162,11 +192,11 @@
             {% endfor %}
         </div>
     </div>
-
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const likeButtons = document.querySelectorAll('.like-button');
-
+    
             likeButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const blogId = button.getAttribute('data-blog-id');
@@ -181,7 +211,7 @@
                     .then(data => {
                         const likeCountSpan = button.nextElementSibling;
                         likeCountSpan.textContent = data.like_count;
-
+    
                         button.classList.toggle('liked');
                         if (button.classList.contains('liked')) {
                             button.textContent = '💜'; // Change text to purple heart
@@ -194,5 +224,6 @@
             });
         });
     </script>
+    
 </body>
 </html>
